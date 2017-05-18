@@ -26,7 +26,7 @@
 %   Version 1.0
 %   4 May 2017
 %
-classdef Interval
+classdef Interval2
     properties
         lb; ub;
     end
@@ -394,13 +394,9 @@ classdef Interval
         end
         
         function res = vol(a)
-            if(a.isempty)
-                res = 0;
-            else
-                res = 1;
-                for i=1:length(a)
-                    res = res*a(i).width;
-                end
+            res = 1;
+            for i=1:length(a)
+                res = res*a(i).width;
             end
         end
         

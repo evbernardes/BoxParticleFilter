@@ -14,9 +14,21 @@ for i=1:i_max
        Boxes{i,j} = Interval(pos_x1(i:i+1),pos_x2(j:j+1));
     end
 end
-Boxes = [];
-for i=1:i_max
-    for j=1:j_max
-       Boxes = [Boxes; Interval(pos_x1(i:i+1),pos_x2(j:j+1))];
-    end
+
+V_aux = 0:0.25:3;
+V_Boxes = cell(length(V_aux)-1,1);
+for i=1:length(V_Boxes);
+	V_Boxes{i} = Interval([V_aux(i),V_aux(i+1)]);
 end
+
+OMEGA_aux = -pi:0.1:pi;
+OMEGA_Boxes = cell(length(OMEGA_aux)-1,1);
+for i=1:length(OMEGA_Boxes);
+	OMEGA_Boxes{i} = Interval([OMEGA_aux(i),OMEGA_aux(i+1)]);
+end
+% Boxes = [];
+% for i=1:i_max
+%     for j=1:j_max
+%        Boxes = [Boxes; Interval(pos_x1(i:i+1),pos_x2(j:j+1))];
+%     end
+% end
