@@ -18,7 +18,7 @@ initBoxes;
 i = i-2:i+2; j = j-2:j+2;
 w_boxes_0 = zeros(size(Boxes)); w_boxes_0(i,j) = 1; w_boxes_0 = w_boxes_0/sum(sum(w_boxes_0));
 
-[w_boxes_box,x_med_box] = BoxPFilter2D(N,Boxes,ts,stateF,U,pe);%,true,w_boxes_0);
+[w_boxes_box,x_med_box] = BoxPFilter2D(N,Boxes,ts,stateF,U,pe,true,w_boxes_0);
 
 %% Plots
 
@@ -29,5 +29,5 @@ plot (x(:,1),x(:,2),'k','LineWidth',3)
 plot (x_med_box(:,1),x_med_box(:,2),'r','LineWidth',2)
 scatter(S(:,1),S(:,2),'mx','linewidth',7)
 plotBoxGrid(Boxes,'g','none',1)
-plotDistance(x,x_med,'b');
+plotDistance(x,x_med_box,'b');
 legend ('real','Box particle model 1','Location','northwest')

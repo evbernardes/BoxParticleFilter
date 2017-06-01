@@ -65,16 +65,18 @@ classdef Interval
         end
         
         function res = inflate(a,sigma)
-            n = length(a);
-            res = Interval.empty(n,0);
+            [n,m] = size(a);
+            res = Interval.empty(n*m,0);
             if(length(sigma) == 1)
-                for i = 1:n
+                for i = 1:n*m
                     res(i) = Interval([a(i).lb-sigma,a(i).ub+sigma]);
                 end
-            elseif(n == length(sigma))
-                for i = 1:n
+                res = reshape(res,[n,m]);
+            elseif(isequal(size(a),size(sigma)))
+                for i = 1:n*m
                     res(i) = Interval([a(i).lb-sigma(i),a(i).ub+sigma(i)]);
                 end
+                res = reshape(res,[n,m]);
             else
                 error('Incompatible sizes')
             end
@@ -404,7 +406,22 @@ classdef Interval
             end
         end
         
-        function plot(obj,color,LineWidth)
+%         function plot(obj,color,LineWidth)
+%             if length(obj)~= 2
+%                 error('IntervalVector plot Only implemented for 2D boxes')
+%             else
+%                 if nargin == 2
+%                     LineWidth = 1;
+%                 end
+%                 x0y0 = obj.low; x0 = x0y0(1); y0 = x0y0(2); 
+%                 x1y1 = obj.high; x1 = x1y1(1); y1 = x1y1(2); 
+%                 plotX = [x0;x1;x1;x0;x0];
+%                 plotY = [y0;y0;y1;y1;y0];
+%                 plot(plotX,plotY,color,'LineWidth',LineWidth);
+%             end
+%         end
+        
+        function plot(obj,EdgeColor,FaceColor,LineWidth)
             if length(obj)~= 2
                 error('IntervalVector plot Only implemented for 2D boxes')
             else
@@ -413,9 +430,11 @@ classdef Interval
                 end
                 x0y0 = obj.low; x0 = x0y0(1); y0 = x0y0(2); 
                 x1y1 = obj.high; x1 = x1y1(1); y1 = x1y1(2); 
-                plotX = [x0;x1;x1;x0;x0];
-                plotY = [y0;y0;y1;y1;y0];
-                plot(plotX,plotY,color,'LineWidth',LineWidth);
+                plotX = [x0;x1;x1;x0];
+                plotY = [y0;y0;y1;y1];
+                f = [1 2 3 4];
+%                 plot(plotX,plotY,color,'LineWidth',LineWidth);
+                patch('Vertices',[plotX,plotY],'Faces',f,'EdgeColor',EdgeColor,'FaceColor',FaceColor,'LineWidth',LineWidth);
             end
         end
 	end

@@ -1,4 +1,4 @@
-function plotBoxGrid(Boxes,color,LineWidth)
+function plotBoxGrid(Boxes,EdgeColor,FillColor,LineWidth)
     if nargin == 2
         LineWidth = 1;
     end
@@ -7,7 +7,7 @@ function plotBoxGrid(Boxes,color,LineWidth)
     hold on;
     for i = 1:i_max
         for j = 1:j_max
-            plot(Boxes{i,j},color,LineWidth);
+            plot(Boxes{i,j},EdgeColor,FillColor,LineWidth);
         end
     end
     if(~check)
