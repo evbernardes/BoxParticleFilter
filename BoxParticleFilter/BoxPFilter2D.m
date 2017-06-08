@@ -24,7 +24,7 @@
 %       - x_med - DOUBLE ARRAY, estimation using w_boxes
 %									 
 %	-> MATLAB version used:	
-%		- R2012b (8.0.0.783) 64-bit	
+%		- 9.0.0.341360 (R2016a) 64-bit	
 %				 
 % 	-> Special toolboxes used: 
 %		-- none	--
@@ -37,9 +37,10 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.0
+% 	Code version:	1.1
+%   - optional variables processing corrected
 %
-%	last edited in:	31/05/2017 						 
+%	last edited in:	01/06/2017 						 
 %									 
 %***********************************************************************
 function [w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,varargin)

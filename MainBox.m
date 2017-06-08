@@ -23,11 +23,10 @@ w_boxes_0 = zeros(size(Boxes)); w_boxes_0(i,j) = 1; w_boxes_0 = w_boxes_0/sum(su
 %% Plots
 
 figure (1); 
-%subplot(2,1,1); 
-hold on
-plot (x(:,1),x(:,2),'k','LineWidth',3)
-plot (x_med_box(:,1),x_med_box(:,2),'r','LineWidth',2)
-scatter(S(:,1),S(:,2),'mx','linewidth',7)
-plotBoxGrid(Boxes,'g','none',1)
-plotDistance(x,x_med_box,'b');
-legend ('real','Box particle model 1','Location','northwest')
+    plot (x(:,1),x(:,2),'k','LineWidth',3)
+    hold on
+    plot (x_med_box(:,1),x_med_box(:,2),'r','LineWidth',2)
+    scatter(S(:,1),S(:,2),'mx','linewidth',7)
+    plotBoxGrid(Boxes,'g','none',1)
+    plotDistance(x,x_med_box,'b');
+    legend ('real','Box particle model 1','Location','northwest')

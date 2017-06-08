@@ -1,9 +1,11 @@
 normVec = @(a) sqrt(sum(a.^2,2));
 
-%% path 2
-ts = 0.15; 
-th = 0:ts:2*pi;
+%% Path definition
+% Circle of radius 5 centered at (5,5)
 
+ts = 0.15; % sampling frequency
+
+th = 0:ts:2*pi;
 % real state values
 x = 5*[cos(th)',sin(th)']; x = x + 5;
 dx = diff(x); dx = [dx(1,:);dx];
@@ -16,12 +18,9 @@ S =     [5 5];
 NS = size(S,1); % number of landmarks
 
 % noise
-sigma=5; sigma_v = 0.02; sigma_theta = 0.002;
-% accuracy_x = [1, 1]; % box dimensions
+sigma=0.01; sigma_v = 0.002; sigma_theta = 0.002;
 
-
-
-%% Theta: Definition of measure and error distribution
+%% Measure y1 (angle difference from x3 to landmark)
 
 % angle distance (data to be measured)
 v_measure = v + 2*(rand(size(v))-0.5)*sigma_v; 
@@ -44,7 +43,7 @@ for m = 1:NS
         pe{m} = @(x,y,k) normpdf(measure_Func(x,y,S(m,:)) - theta(k),theta_distance_measure(k,m),sqrt(sigma));
 end
 
-% State Function inputs
+%% State Function inputs (measures y2 and y3)
 U = cell(N,1);
 for k = 1:N
     U{k} = [Interval(v_measure(k)).inflate(sigma_v),Interval(theta_measure(k)).inflate(sigma_theta)];

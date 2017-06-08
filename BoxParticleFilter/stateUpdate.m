@@ -20,7 +20,7 @@
 %       (normalized)
 %									 
 %	-> MATLAB version used:	
-%		- R2012b (8.0.0.783) 64-bit	
+%		- 9.0.0.341360 (R2016a) 64-bit
 %				 
 % 	-> Special toolboxes used: 
 %		-- none	--

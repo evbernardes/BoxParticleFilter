@@ -1,3 +1,35 @@
+%*********************************************************************** 
+%									 
+%	-- Find the indexes of all boxes defined in the array Boxes which are
+%	affected by BigBox.
+%
+%	- Usage = 
+%		[i_idx,j_idx] = findIndexes(BigBox,Boxes)
+%
+%	- inputs =
+%		- BigBox, INTERVAL VECTOR, box to be located
+%		- Boxes - CELL ARRAY, box grid
+%
+%	- outputs = 	
+%       - [i_idx,j_idx] - INTEGER ARRAYS, affected locations indexes
+%									 
+%	-> MATLAB version used:	
+%		- 9.0.0.341360 (R2016a) 64-bit	
+%				 
+% 	-> Special toolboxes used: 
+%		-- none	--
+%
+% 	-> Other dependencies: 
+%		- Interval.m
+%									 
+%	-> Created by Evandro Bernardes	 								 
+%		- at IRI (Barcelona, Catalonia, Spain)							 								 
+%									 
+% 	Code version:	1.0
+%
+%	last edited in:	01/06/2017 						 
+%									 
+%***********************************************************************
 function [i_idx,j_idx] = findIndexes(BigBox,Boxes)
     persistent I; persistent J;
     if(isempty(I) || isempty(J))

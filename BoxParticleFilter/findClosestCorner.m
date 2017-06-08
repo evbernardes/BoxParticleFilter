@@ -1,3 +1,37 @@
+%*********************************************************************** 
+%									 
+%	-- Find closest corner. Each dimension of the Box that passes the
+%	limits defined by the Borners will be given teh same value as the
+%	closest corner.
+%
+%
+%	- Usage = 
+%		NewBox = findClosestCorner(Corners,Box)
+%
+%	- inputs =
+%		- Corners, CELL ARRAY, corner boxes
+%		- Box - INTERVAL VECTOR, Box whose closest corner mut be found
+%
+%	- outputs = 	
+%       - NewBox - INTERVAL VECTOR, Box with corners within limits
+%									 
+%	-> MATLAB version used:	
+%		- 9.0.0.341360 (R2016a) 64-bit	
+%				 
+% 	-> Special toolboxes used: 
+%		-- none	--
+%
+% 	-> Other dependencies: 
+%		- Interval.m
+%									 
+%	-> Created by Evandro Bernardes	 								 
+%		- at IRI (Barcelona, Catalonia, Spain)							 								 
+%									 
+% 	Code version:	1.0
+%
+%	last edited in:	01/06/2017 						 
+%									 
+%***********************************************************************
 function NewBox = findClosestCorner(Corners,Box)
     CornersMid = cellfun(@mid,Corners,'UniformOutput',false);
     
