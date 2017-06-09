@@ -18,7 +18,7 @@ S =     [5 5];
 NS = size(S,1); % number of landmarks
 
 % noise
-sigma=0.01; sigma_v = 0.002; sigma_theta = 0.002;
+sigma=0.1; sigma_v = 0.02; sigma_theta = 0.02;
 
 %% Measure y1 (angle difference from x3 to landmark)
 
@@ -35,12 +35,12 @@ theta_distance_measure = theta_distance_real + randn(size(theta_distance_real))*
 
 % measure function (angle distance between the heading and the landmark at
 % each state
-measure_Func = @(x,y,s) atan2(y - s(2),x - s(1));
+f = @(x,y,s,k) atan2(y - s(2),x - s(1)) - theta(k);
 
 % cell array with function for each landmark
 pe = cell(NS,1);
 for m = 1:NS
-        pe{m} = @(x,y,k) normpdf(measure_Func(x,y,S(m,:)) - theta(k),theta_distance_measure(k,m),sqrt(sigma));
+        pe{m} = @(x,y,k) normpdf(f(x,y,S(m,:),k),theta_distance_measure(k,m),sqrt(sigma));
 end
 
 %% State Function inputs (measures y2 and y3)

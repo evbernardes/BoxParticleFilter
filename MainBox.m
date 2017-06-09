@@ -7,7 +7,7 @@ rng(1);
 stateF = @(X,U,ts) X + ts*U(1)*[cos(U(2)) , sin(U(2))];
 
 % environment definition (measures, probability functions, etc)
-environment3;
+environment2;
 
 %% Box particle filtering
 NP = 256;

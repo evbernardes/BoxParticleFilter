@@ -44,6 +44,11 @@ for m = 1:NS
         pe{m} = @(x,y,k) normpdf(measureFunc(x,y,S(m,:)),measure(k,m),sqrt(sigma));
 end
 
+%% State Function inputs (measures y2 and y3)
+U = cell(N,1);
+for k = 1:N
+    U{k} = [Interval(v_measure(k)).inflate(sigma_v),Interval(theta_measure(k)).inflate(sigma_theta)];
+end
 
      
 
