@@ -1,15 +1,15 @@
 %*********************************************************************** 
 %									 
-%	-- 2D box particle filtering. 
+%	-- 2D conventional particle filtering. 
 %
 %
 %	- Usage = 
-%		[w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,show,w_boxes0)
+%		[w,x_med] = ConvPFilter2D(N,particles,ts,stateFunction,stateInput,pe,varargin)
 %
 %	- inputs =
 %		- N - INT, number of boxes (can be slightly different if the number
 %		doesn't have an integer square root).
-%		- Boxes - CELL ARRAY, defines all boxes
+%		- particles - CELL ARRAY, defines all particles in each step
 %       - ts - DOUBLE, sampling time
 %       - stateFunction - LAMBDA FUNCTION, state evolution
 %       - stateInput - CELL ARRAY, state function input
@@ -30,53 +30,56 @@
 %		-- none	--
 %
 % 	-> Other dependencies: 
-%		- Interval.m
-%		- measurementUpdate.m
-%		- stateUpdate.m
+%		-- none --
 %									 
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.1
-%   - optional variables processing corrected
+% 	Code version:	1
 %
-%	last edited in:	01/06/2017 						 
+%	last edited in:	09/06/2017 						 
 %									 
 %***********************************************************************
-function [w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,varargin)
-   
-    w_boxes = cell(N,1);
-    x_med=zeros(N,2); % prealocating for performance
+function [w,x_med] = ConvPFilter2D(N,particles,ts,stateFunction,stateInput,pe,varargin)
+
+    w = cell(N,1);
+    x_med=zeros(N,2);
     
     switch(nargin)
         case 7
             show = varargin{1};
-            w_boxes{1}=1/numel(Boxes)*ones(size(Boxes));
+            w{1}=1/length(particles{1})*ones(length(particles{1}),1);
         case 8
             show = varargin{1};
-            w_boxes{1} = varargin{2};
+            w{1} = varargin{2};
         otherwise
             show = false;
-            w_boxes{1}=1/numel(Boxes)*ones(size(Boxes));
+            w{1}=1/length(particles{1})*ones(length(particles{1}),2);
     end
 
-    %% Main loop
-    % here the box particle filtering algorithm is implemented
-    pek = cell(size(pe));
-    for k=1:N,
+    for k = 1:N
         if(show)
             disp(k)
         end
-        %% Measurement update
-        for m = 1:length(pek)
-            pek{m} = @(x,y) pe{m}(x,y,k);
-        end  
+        
+        Like = 1;
+        for m = 1:size(pe,1)
+            Like = Like.*pe{m}(particles{k}(:,1),particles{k}(:,2),k);
+        end
 
-        % measurement update
-        [w_boxes{k},x_med(k,:)] = measurementUpdate(w_boxes{k},Boxes,pek);    
+        w{k} = w{k}.*Like;
+        w{k} = w{k}/sum(w{k});
 
-        %% State update Resampling    
-        % Use input to calculate stateUpdate;
-        w_boxes{k+1} = stateUpdate(w_boxes{k},Boxes,stateFunction,stateInput{k},ts);
+        [Inew]=rsmp(w{k});
+        particles{k} = particles{k}(Inew,:);
+
+        w{k+1}=1/length(particles{1})*ones(length(particles{1}),1);
+
+        x_med(k,:)=mean(particles{k});
+
+        for i = 1:length(particles{k})
+            particles{k+1}(i,:) = stateFunction(particles{k}(i,:),stateInput(k,:),ts);
+        end
     end
+    
 end

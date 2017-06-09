@@ -5,8 +5,8 @@ bound = max(max(abs(dx)));
 % SizeParticles = ceil((x_max - x_min)./accuracy_x); NParticles = prod(SizeParticles);
 
 SizeParticles = ceil([sqrt(NP) sqrt(NP)]); NParticles = prod(SizeParticles);
-x_min = min(x) - 10*bound;
-x_max = max(x) + 10*bound;
+x_min = min(x) - 1*bound;
+x_max = max(x) + 1*bound;
 accuracy_x = ceil(x_max - x_min)./SizeParticles;
 
 particles_x1 = x_min(1)+rand(NParticles,1)*(x_max(1)-x_min(1));
