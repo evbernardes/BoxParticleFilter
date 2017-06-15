@@ -14,5 +14,5 @@ function plotBoxGrid(Boxes,EdgeColor,FillColor,LineWidth)
         hold off;
     end
     X0 = Boxes{1,1}.low; X1 = Boxes{end,end}.high;
-    axis([X0(1) X1(1) X0(2) X1(2)])
+%     axis([X0(1) X1(1) X0(2) X1(2)])
 end
