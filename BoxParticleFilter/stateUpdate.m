@@ -33,9 +33,10 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.0
+% 	Code version:	1.1
+%   - 1.1: now only looping through non-zero values of weight array
 %
-%	last edited in:	30/05/2017 						 
+%	last edited in:	15/06/2017 						 
 %									 
 %***********************************************************************
 function w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
@@ -49,33 +50,31 @@ function w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
     LB = Boxes{1,1}.low; UB = Boxes{end,end}.high;
     TotalBox = Interval([LB(1) UB(1)], [LB(2) UB(2)]);
     
-    [i_max,j_max]=size(w_boxes);
+    [i,j] = find(w_boxes);
     w_boxes_new=zeros(size(w_boxes));
     
-    for i=1:i_max,
-        for j=1:j_max,  
+    for k=1:length(i),
             
-            % if contracted box is not inside the enclosed area, find the
-            % nearest box
-            BigBox = TotalBox&stateFunction(Boxes{i,j},stateInput,ts);
-            if(sum(BigBox.isempty) > 0)
-                BigBox = findClosestCorner(Corners,BigBox);
-            end
-            
-            % select indexes to be affected by box at the center
-            [i_idx,j_idx] = findIndexes(BigBox,Boxes);
-            
-            tic;
-            A = zeros(length(i_idx),length(j_idx));
-            for n = 1:length(i_idx)
-                for m = 1:length(j_idx)
-                    A(n,m) = vol(quickBoxAnd(Boxes{i_idx(n),j_idx(m)},BigBox));
-                end
-            end
-           
-            w_boxes_new(i_idx,j_idx)=w_boxes_new(i_idx,j_idx)+A.*w_boxes(i,j);
+        % if contracted box is not inside the enclosed area, find the
+        % nearest box
+        BigBox = TotalBox&stateFunction(Boxes{i(k),j(k)},stateInput,ts);
+        if(sum(BigBox.isempty) > 0)
+            BigBox = findClosestCorner(Corners,BigBox);
         end
         
+        % select indexes to be affected by box at the center
+        [i_idx,j_idx] = findIndexes(BigBox,Boxes);
+        
+        tic;
+        A = zeros(length(i_idx),length(j_idx));
+        for n = 1:length(i_idx)
+            for m = 1:length(j_idx)
+                A(n,m) = vol(quickBoxAnd(Boxes{i_idx(n),j_idx(m)},BigBox));
+            end
+        end
+        
+        w_boxes_new(i_idx,j_idx)=w_boxes_new(i_idx,j_idx)+A.*w_boxes(i(k),j(k));
+            
     end
 %     T = [m1,m2,m3,m4,m5,m6,m7,m8,m9]; disp(T)
 end
