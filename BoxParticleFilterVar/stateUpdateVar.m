@@ -44,6 +44,9 @@ function [w_new,Boxes_new] = stateUpdateVar(w,Boxes,accuracy,sFunction,sInput,ts
     
     % find all boxes with non-zero weight
     [i,j] = find(w);
+    if(isempty(i))
+        error('Weight distribution is all zero')
+    end
     
     % apply state function to all non-zero weight boxes
     BigBoxes = cell(length(i),1);

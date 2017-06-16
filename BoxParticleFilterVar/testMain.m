@@ -10,18 +10,9 @@ stateFunction = @(X,U,ts) X + ts*U(1)*[cos(U(2)) , sin(U(2))];
 environment3;
 
 %% Box particle filtering
-% NP = 256;
-% initBoxes;
-% 
-% % init position
-% [i,j] = findIndexes(Interval(x(1,1),x(1,2)),Boxes);
-% i = i-2:i+2; j = j-2:j+2;
-% w_boxes_0 = zeros(size(Boxes)); w_boxes_0(i,j) = 1; w_boxes_0 = w_boxes_0/sum(sum(w_boxes_0));
-
 in = x(1,:); accuracy = [0.5,0.5];
 lb = in - 2*accuracy; ub = in + 2*accuracy;
 Boxes = cell(N,1); Boxes{1} = initBoxVar(lb,ub,accuracy);
-
 
 w_boxes = cell(N,1); 
 w_boxes{1} = ones(size(Boxes{1})); w_boxes{1} = w_boxes{1}/sum(sum(w_boxes{1}));
@@ -59,14 +50,17 @@ hold on
     plotDistance(x,x_med,'b');
     legend ('real','Box particle model 1','Location','northwest')
     
-    %%
-figure(1)
-% plotBoxGrid(Boxes,'r','none',1); hold on
-for i = 2:length(Boxes)
-clf(figure(1))
-% plotBoxGrid(ABoxes{i},'g','none',1)
+for i = 1:length(Boxes)
 plotBoxGrid(Boxes{i}(w_boxes{i} ~= 0),'g','none',1)
+end
 
-axis([-5 15 -5 15])
-pause(0.2)
+%%
+figure(2)
+norm = max(cellfun(@(x) max(max(x)),w_boxes));
+for i = 1:length(Boxes)
+    clf(figure(2)); 
+    plot (x(:,1),x(:,2),'k','LineWidth',3); hold on
+    axis([-5 15 -5 30]);
+	plotBoxesColor(Boxes{i},w_boxes{i},norm);
+    pause(0.2);
 end
