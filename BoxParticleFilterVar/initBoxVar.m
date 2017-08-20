@@ -35,7 +35,7 @@ function Boxes = initBoxVar(lb,ub,accuracy)
 
     lb = floor(lb./accuracy).*accuracy;
     ub = ceil(ub./accuracy).*accuracy;
-    MN = (ub-lb)./accuracy;
+    MN = ceil((ub-lb)./accuracy);
     
     pos_x1 = lb(1) + (0:MN(1))*accuracy(1);
     pos_x2 = lb(2) + (0:MN(2))*accuracy(2);

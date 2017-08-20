@@ -39,7 +39,7 @@
         N = numel(Boxes);
         x_med_k = zeros(1,2);
         
-        test = w_boxes > 1/(N*10);
+        test = w_boxes > 1/(N*50);
         [I,J]=find(test);
         
         for k=1:length(I),

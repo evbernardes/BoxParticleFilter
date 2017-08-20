@@ -1,5 +1,6 @@
 bound = max(max(abs(dx)));
 boxes = ceil([sqrt(NP) sqrt(NP)]); Nboxes = prod(boxes);
+Nboxes = NP;
 x_min = min(x) - 5*bound;
 x_max = max(x) + 5*bound;
 accuracy_x = ceil(x_max - x_min)./boxes;

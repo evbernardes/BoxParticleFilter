@@ -40,12 +40,6 @@
 %									 
 %***********************************************************************
 function w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
-%     persistent T;
-%     if(isempty(T))
-%         T = zeros(9,1);
-%     end
-%     m1=T(1); m2=T(2); m3=T(3); m4=T(4); m5=T(5); m6=T(6); m7=T(7); m8=T(8);m9=T(9);
-
     Corners = Boxes([1,end],[1,end]);
     LB = Boxes{1,1}.low; UB = Boxes{end,end}.high;
     TotalBox = Interval([LB(1) UB(1)], [LB(2) UB(2)]);
@@ -65,7 +59,6 @@ function w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
         % select indexes to be affected by box at the center
         [i_idx,j_idx] = findIndexes(BigBox,Boxes);
         
-        tic;
         A = zeros(length(i_idx),length(j_idx));
         for n = 1:length(i_idx)
             for m = 1:length(j_idx)
@@ -75,6 +68,5 @@ function w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
         
         w_boxes_new(i_idx,j_idx)=w_boxes_new(i_idx,j_idx)+A.*w_boxes(i(k),j(k));
             
-    end
-%     T = [m1,m2,m3,m4,m5,m6,m7,m8,m9]; disp(T)
+	end
 end

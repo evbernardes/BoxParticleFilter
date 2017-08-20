@@ -17,22 +17,4 @@ function res = cosInterval(x)
         L = ((-1)^n)*L;
         res = Interval([min(L),max(L)]);
     end
-      
-        
-%     obj = Interval([wrapToPi(obj.lb),wrapToPi(obj.ub)]);
-%         if(obj.contains(3*pi/2))
-%             lb = -1;
-%         else
-%             lb = min([sin(obj.lb),sin(obj.ub)]);
-%         end
-%         
-%         if(obj.contains(pi/2))
-%             ub = 1;
-%         else
-%             ub = max([sin(obj.lb),sin(obj.ub)]);
-%         end
-%         
-%         res = Interval([lb,ub]);
-    
-
 end

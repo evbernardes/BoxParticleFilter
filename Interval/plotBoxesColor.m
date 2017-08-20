@@ -63,7 +63,7 @@ function plotBoxesColor(Boxes,w,norm,EdgeColor,LineWidth,cmap)
     
     check = ishold;
     hold on;
-    w = w/norm;
+%     w = w/norm;
     MN = size(Boxes);
     if(size(w) ~= MN)
         error('Array sizes must be equal')

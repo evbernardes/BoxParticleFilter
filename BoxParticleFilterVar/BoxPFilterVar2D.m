@@ -2,7 +2,6 @@
 %									 
 %	-- 2D box particle filtering. 
 %
-%
 %	- Usage = 
 %		[w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,show,w_boxes0)
 %
@@ -43,42 +42,32 @@
 %	last edited in:	01/06/2017 						 
 %									 
 %***********************************************************************
-function [w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,varargin)
+function [Boxes,W,x_med] = BoxPFilterVar2D(Boxes_0,w_0,ts,sFunction,sInput,pe)
    
-    w_boxes = cell(N,1);
-    x_med=zeros(N,2); % prealocating for performance
+    N = length(sInput);
+    x_med = zeros(N,2);
+    accuracy = Boxes_0{1,1}.width;
     
-    switch(nargin)
-        case 7
-            show = varargin{1};
-            w_boxes{1}=1/numel(Boxes)*ones(size(Boxes));
-        case 8
-            show = varargin{1};
-            w_boxes{1} = varargin{2};
-        otherwise
-            show = false;
-            w_boxes{1}=1/numel(Boxes)*ones(size(Boxes));
-    end
+    Boxes = cell(N+1,1); Boxes{1} = Boxes_0;
+    W = cell(N+1,1); W{1} = w_0;
 
     %% Main loop
     % here the box particle filtering algorithm is implemented
     pek = cell(size(pe));
     for k=1:N,
-        if(show)
-            disp(k)
-        end
+    %     if(show)
+%             disp(k)
+    %     end
         %% Measurement update
         for m = 1:length(pek)
             pek{m} = @(x,y) pe{m}(x,y,k);
-        end  
+        end
 
         % measurement update
-        [w_boxes{k},x_med(k,:)] = measurementUpdate(w_boxes{k},Boxes,pek);    
+        [W{k},x_med(k,:)] = measurementUpdate(W{k},Boxes{k},pek);
 
-        %% State update Resampling    
+        %% State update Resampling
         % Use input to calculate stateUpdate;
-        w_boxes{k+1} = stateUpdate(w_boxes{k},Boxes,stateFunction,stateInput{k},ts);
-	end
-	
-	clear findIndexes;
+        [W{k+1},Boxes{k+1}] = stateUpdateVar(W{k},Boxes{k},accuracy,sFunction,sInput{k},ts);
+    end
 end

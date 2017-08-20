@@ -10,7 +10,7 @@ stateFunction = @(X,U,ts) X + ts*U(1)*[cos(U(2)) , sin(U(2))];
 environment3;
 
 %% Box particle filtering
-in = x(1,:); accuracy = [0.5,0.5];
+in = x(1,:); accuracy = [1,1];
 lb = in - 2*accuracy; ub = in + 2*accuracy;
 Boxes = cell(N,1); Boxes{1} = initBoxVar(lb,ub,accuracy);
 
