@@ -4,7 +4,7 @@
 %
 %
 %	- Usage = 
-%		[w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,show,w_boxes0)
+%		[w_boxes,x_med] = BPF2D_fixed(N,Boxes,ts,stateFunction,stateInput,pe,show,w_boxes0)
 %
 %	- inputs =
 %		- N - INT, number of boxes (can be slightly different if the number
@@ -37,13 +37,14 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.1
+% 	Code version:	1.2
 %   - optional variables processing corrected
+%	- name changed from BoxPFilter2D to BPF2D_fixed
 %
-%	last edited in:	01/06/2017 						 
+%	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
-function [w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,varargin)
+function [w_boxes,x_med] = BPF2D_fixed(N,Boxes,ts,stateFunction,stateInput,pe,varargin)
    
     w_boxes = cell(N,1);
     x_med=zeros(N,2); % prealocating for performance
@@ -73,11 +74,11 @@ function [w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,v
         end  
 
         % measurement update
-        [w_boxes{k},x_med(k,:)] = measurementUpdate(w_boxes{k},Boxes,pek);    
+        [w_boxes{k},x_med(k,:)] = measurementUpdate_fixed(w_boxes{k},Boxes,pek);    
 
         %% State update Resampling    
         % Use input to calculate stateUpdate;
-        w_boxes{k+1} = stateUpdate(w_boxes{k},Boxes,stateFunction,stateInput{k},ts);
+        w_boxes{k+1} = stateUpdate_fixed(w_boxes{k},Boxes,stateFunction,stateInput{k},ts);
 	end
 	
 	clear findIndexes;

@@ -3,7 +3,7 @@
 %	-- 2D box particle filtering. 
 %
 %	- Usage = 
-%		[w_boxes,x_med] = BoxPFilter2D(N,Boxes,ts,stateFunction,stateInput,pe,show,w_boxes0)
+%		[w_boxes,x_med] = BPF2D(N,Boxes,ts,stateFunction,stateInput,pe,show,w_boxes0)
 %
 %	- inputs =
 %		- N - INT, number of boxes (can be slightly different if the number
@@ -36,13 +36,14 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.1
-%   - optional variables processing corrected
+% 	Code version:	1.2
+%   - 1.1: optional variables processing corrected
+%	- 1.2: name changed from BoxPFiltar2DVar to BPF2D
 %
-%	last edited in:	01/06/2017 						 
+%	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
-function [Boxes,W,x_med] = BoxPFilterVar2D(Boxes_0,w_0,ts,sFunction,sInput,pe)
+function [Boxes,W,x_med] = BPF2D(Boxes_0,w_0,ts,sFunction,sInput,pe)
    
     N = length(sInput);
     x_med = zeros(N,2);
@@ -68,6 +69,6 @@ function [Boxes,W,x_med] = BoxPFilterVar2D(Boxes_0,w_0,ts,sFunction,sInput,pe)
 
         %% State update Resampling
         % Use input to calculate stateUpdate;
-        [W{k+1},Boxes{k+1}] = stateUpdateVar(W{k},Boxes{k},accuracy,sFunction,sInput{k},ts);
+        [W{k+1},Boxes{k+1}] = stateUpdate(W{k},Boxes{k},accuracy,sFunction,sInput{k},ts);
     end
 end

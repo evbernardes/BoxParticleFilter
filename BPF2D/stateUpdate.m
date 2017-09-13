@@ -6,7 +6,7 @@
 %   cell array "Boxes" to evolve their respective weights.
 %
 %	- Usage = 
-%		[w_new,Boxes_new] = stateUpdateVar(w,Boxes,accuracy,sFunction,sInput,ts)
+%		[w_new,Boxes_new] = stateUpdate(w,Boxes,accuracy,sFunction,sInput,ts)
 %
 %	- inputs =
 %		- w - DOUBLE ARRAY, probability distribution
@@ -30,17 +30,18 @@
 % 	-> Other dependencies: 
 %		- Interval.m
 %		- findClosestCorner.m
-%		- findIndexesVar.m
+%		- findIndexes.m
 %									 
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
 % 	Code version:	1.0
+%	- 1.2: name changed from stateUpdateVar to stateUpdate
 %
-%	last edited in:	15/06/2017 						 
+%	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
-function [w_new,Boxes_new] = stateUpdateVar(w,Boxes,accuracy,sFunction,sInput,ts)
+function [w_new,Boxes_new] = stateUpdate(w,Boxes,accuracy,sFunction,sInput,ts)
     
     % find all boxes with non-zero weight
     [i,j] = find(w);
@@ -58,14 +59,14 @@ function [w_new,Boxes_new] = stateUpdateVar(w,Boxes,accuracy,sFunction,sInput,ts
     
     % new boxes array and weight array
     lb = min(lb); ub = max(ub);
-    Boxes_new = initBoxVar(lb,ub,accuracy);
+    Boxes_new = initBoxesArray(lb,ub,accuracy);
     w_new=zeros(size(Boxes_new));
     
     % loop for all non-zero boxes
     for k=1:length(i),
         
         % find intersection area between state function output with each 
-        [i_idx,j_idx] = findIndexesVar(BigBoxes{k},Boxes_new);
+        [i_idx,j_idx] = findIndexes(BigBoxes{k},Boxes_new);
         A = zeros(length(i_idx),length(j_idx));
         for n = 1:length(i_idx)
             for m = 1:length(j_idx)

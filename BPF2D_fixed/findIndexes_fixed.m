@@ -4,7 +4,7 @@
 %	affected by BigBox.
 %
 %	- Usage = 
-%		[i_idx,j_idx] = findIndexes(BigBox,Boxes)
+%		[i_idx,j_idx] = findIndexes_fixed(BigBox,Boxes)
 %
 %	- inputs =
 %		- BigBox, INTERVAL VECTOR, box to be located
@@ -26,15 +26,18 @@
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
 % 	Code version:	1.0
+%	- 1.1: name changed from findIndexes to findIndexes_fixed
 %
-%	last edited in:	01/06/2017 						 
+%	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
-function [i_idx,j_idx] = findIndexesVar(BigBox,Boxes)
-
-    I = cellfun(@(x) x(1).mid, Boxes(:,1));
-	J = cellfun(@(x) x(2).mid, Boxes(1,:));
-
+function [i_idx,j_idx] = findIndexes_fixed(BigBox,Boxes)
+    persistent I; persistent J;
+    if(isempty(I) || isempty(J))
+        I = cellfun(@(x) x(1).mid, Boxes(:,1));
+        J = cellfun(@(x) x(2).mid, Boxes(1,:));
+    end
+    
     low = BigBox.low; high = BigBox.high;
     
     [~,i_min] = min(abs(I - low(1)));

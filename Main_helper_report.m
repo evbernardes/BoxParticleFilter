@@ -62,7 +62,7 @@ initBoxes;
 w_boxes_0 = ones(size(Boxes)); w_boxes_0 = w_boxes_0/sum(sum(w_boxes_0));
 
 tic;
-[w_box,x_box] = BoxPFilter2D(N,Boxes,ts,sFunction,U,pe,false,w_boxes_0);
+[w_box,x_box] = BPF2D_fixed(N,Boxes,ts,sFunction,U,pe,false,w_boxes_0);
 time_med_box = toc;
 
 %% Box particle filtering variable

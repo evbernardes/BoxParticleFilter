@@ -1,7 +1,7 @@
 %*********************************************************************** 
 %									 
 %	-- Find closest corner. Each dimension of the Box that passes the
-%	limits defined by the Borners will be given teh same value as the
+%	limits defined by the Corners will be given the same value as the
 %	closest corner.
 %
 %
@@ -10,7 +10,7 @@
 %
 %	- inputs =
 %		- Corners, CELL ARRAY, corner boxes
-%		- Box - INTERVAL VECTOR, Box whose closest corner mut be found
+%		- Box - INTERVAL VECTOR, Box whose closest corner must be found
 %
 %	- outputs = 	
 %       - NewBox - INTERVAL VECTOR, Box with corners within limits

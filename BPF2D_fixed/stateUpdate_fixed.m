@@ -6,7 +6,7 @@
 %
 %
 %	- Usage = 
-%		w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
+%		w_boxes_new = stateUpdate_fixed(w_boxes,Boxes,stateFunction,stateInput,ts)
 %
 %	- inputs =
 %		- w_boxes - DOUBLE ARRAY, probability distribution
@@ -33,13 +33,14 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.1
+% 	Code version:	1.2
 %   - 1.1: now only looping through non-zero values of weight array
+%	- 1.2: name changed from stateUpdate to stateUpdate_fixed
 %
-%	last edited in:	15/06/2017 						 
+%	last edited in:	13/09/17s
 %									 
 %***********************************************************************
-function w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
+function w_boxes_new = stateUpdate_fixed(w_boxes,Boxes,stateFunction,stateInput,ts)
     Corners = Boxes([1,end],[1,end]);
     LB = Boxes{1,1}.low; UB = Boxes{end,end}.high;
     TotalBox = Interval([LB(1) UB(1)], [LB(2) UB(2)]);
@@ -57,7 +58,7 @@ function w_boxes_new = stateUpdate(w_boxes,Boxes,stateFunction,stateInput,ts)
         end
         
         % select indexes to be affected by box at the center
-        [i_idx,j_idx] = findIndexes(BigBox,Boxes);
+        [i_idx,j_idx] = findIndexes_fixed(BigBox,Boxes);
         
         A = zeros(length(i_idx),length(j_idx));
         for n = 1:length(i_idx)

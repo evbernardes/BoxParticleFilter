@@ -3,7 +3,7 @@
 %	-- Plot all boxes in a box cell array
 %
 %	- Usage = 
-%		plotBoxGrid(Boxes,EdgeColor,FillColor,LineWidth)
+%		plotBoxes(Boxes,EdgeColor,FillColor,LineWidth)
 %
 %	- inputs =
 %		- Boxes - CELL ARRAY, box grid
@@ -24,9 +24,10 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.0
+% 	Code version:	1.1
+%	- 1.1: name changed from plotBoxGrid to plotBoxes
 %
-%	last edited in:	16/06/2017 						 
+%	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
 function plotBoxGrid(Boxes,EdgeColor,FillColor,LineWidth)

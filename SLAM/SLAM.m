@@ -43,22 +43,6 @@ for k = 1:N
     obsLmks = angles < dtheta & angles > -dtheta;
     angles = angles(obsLmks);
     
-    
-    %% test
-%     dd = mean(diff(angles));
-%     [idxfirst] = find(abs(angles - dtheta) < dd);
-%     temp = 1000*ones(size(room)); temp(idxfirst,:) = room(idxfirst,:); 
-%     [~,idxfirst] = min(normVec(bsxfun(@minus,temp,x(k,:))));
-% %     idxs(idxfirst) = 1;
-% 
-%     % find last
-%     [idxlast] = find(abs(angles + dtheta) < dd);
-%     temp = 1000*ones(size(room)); temp(idxlast,:) = room(idxlast,:); 
-%     [~,idxlast] = min(normVec(bsxfun(@minus,temp,x(k,:))));
-% %     idxs(idxlast) = 1;
-%     ii = [idxfirst, idxlast];
-    %%
-    
     m = sum(obsLmks);
     pek = cell(m,1);
     Lmks = find(obsLmks);
@@ -76,7 +60,7 @@ for k = 1:N
     
     %% State update Resampling
     % Use input to calculate stateUpdate;
-    [w_boxes{k+1},Boxes{k+1}] = stateUpdateVar(w_boxes{k},Boxes{k},acc,stateFunction,U{k},ts);
+    [w_boxes{k+1},Boxes{k+1}] = stateUpdate(w_boxes{k},Boxes{k},acc,stateFunction,U{k},ts);
     
     %% Storing new map info
     measures(Lmks) = measures(Lmks)+1;
@@ -85,12 +69,7 @@ for k = 1:N
     
     n = measures(Lmks); n = [n,n];
     measuredPoints(Lmks,:) = (newPos + (n-1).*oldPos)./n;
-%     measuredPoints(Lmks,:) = newPos;
     AllLmks = find(measuredPoints(:,1));
-%     length(AllLmks)
-    
-% 
-
 
     subplot(1,3,1)
 	h1a = draw_tank([x(k,:),theta(k)],'blue',0.1); hold on;

@@ -3,7 +3,7 @@
 %	-- Initialise Box cell array
 %
 %	- Usage = 
-%		Boxes = initBoxVar(lb,ub,accuracy)
+%		Boxes = initBoxesArraytBoxes(lb,ub,accuracy)
 %
 %	- inputs =
 %		- lb - DOUBLE ARRAY, lower bound in each dimension
@@ -26,12 +26,13 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.0
+% 	Code version:	1.1
+%	- 1.1: name changed from initBoxVar to initBoxesArray
 %
-%	last edited in:	15/06/2017 						 
+%	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
-function Boxes = initBoxVar(lb,ub,accuracy)
+function Boxes = initBoxesArray(lb,ub,accuracy)
 
     lb = floor(lb./accuracy).*accuracy;
     ub = ceil(ub./accuracy).*accuracy;

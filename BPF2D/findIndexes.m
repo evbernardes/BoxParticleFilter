@@ -1,7 +1,6 @@
 %*********************************************************************** 
 %									 
-%	-- Find the indexes of all boxes defined in the array Boxes which are
-%	affected by BigBox.
+%	-- Find which boxes in a box array intersect a given input box.
 %
 %	- Usage = 
 %		[i_idx,j_idx] = findIndexes(BigBox,Boxes)
@@ -25,18 +24,17 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.0
+% 	Code version:	1.1
+%	- 1.1: name changed from findIndexesVar to findIndexes
 %
-%	last edited in:	01/06/2017 						 
+%	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
 function [i_idx,j_idx] = findIndexes(BigBox,Boxes)
-    persistent I; persistent J;
-    if(isempty(I) || isempty(J))
-        I = cellfun(@(x) x(1).mid, Boxes(:,1));
-        J = cellfun(@(x) x(2).mid, Boxes(1,:));
-    end
-    
+
+    I = cellfun(@(x) x(1).mid, Boxes(:,1));
+	J = cellfun(@(x) x(2).mid, Boxes(1,:));
+
     low = BigBox.low; high = BigBox.high;
     
     [~,i_min] = min(abs(I - low(1)));
