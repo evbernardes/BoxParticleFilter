@@ -50,10 +50,12 @@ for m = 1:NS
 end
 
 %% State Function inputs (measures y2 and y3)
+stateInput = [v_measure,theta_measure];
+stateInput = [stateInput(1,:);diff(stateInput)];
 U = cell(N,1);
 for k = 1:N
-    U{k} = [Interval(v_measure(k)).inflate(sqrt(sigma_v)),Interval(theta_measure(k)).inflate(sqrt(sigma_theta))];
+
+    U{k} = [Interval(stateInput(k,1)).inflate(sqrt(sigma_v)),Interval(stateInput(k,2)).inflate(sqrt(sigma_theta))];
 end
-stateInput = [v_measure,theta_measure];
      
 

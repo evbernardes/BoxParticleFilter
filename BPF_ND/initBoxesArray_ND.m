@@ -32,19 +32,31 @@
 %	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
-function Boxes = initBoxesArray(lb,ub,accuracy)
-
+function Boxes = initBoxesArray_ND(lb,ub,accuracy)
+	
     lb = floor(lb./accuracy).*accuracy;
     ub = ceil(ub./accuracy).*accuracy;
-    MN = ceil((ub-lb)./accuracy);
     
-    pos_x1 = lb(1) + (0:MN(1))*accuracy(1);
-    pos_x2 = lb(2) + (0:MN(2))*accuracy(2);
+	N = length(lb);
+	pos = cell(N,1);
+	idx = cell(N,1);
+	for i = 1:N
+		pos{i} = lb(i):accuracy(i):ub(i);
+		idx{i} = 1:length(pos{i})-1;
+	end
     
-    Boxes = cell(MN);
-    for i=1:MN(1)
-        for j=1:MN(2)
-           Boxes{i,j} = Interval(pos_x1(i:i+1),pos_x2(j:j+1));
-        end
-    end
+	% find all possible combinations
+	combs = cell(1,N); %// pre-define to generate comma-separated list
+	[combs{end:-1:1}] = ndgrid(idx{end:-1:1}); %// the reverse order in these two
+	%// comma-separated lists is needed to produce the rows of the result matrix in
+	%// lexicographical order 
+	combs = cat(N+1, combs{:}); %// concat the n n-dim arrays along dimension n+1
+	combs = reshape(combs,[],N); %// reshape to obtain desired matrix
+	
+	% create box list
+	NBoxes = length(combs);
+	Boxes = cell(1,NBoxes);
+	for i = 1:NBoxes
+		Boxes{i} = Interval([combs(i,:);combs(i,:)+accuracy]);
+	end
 end

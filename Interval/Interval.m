@@ -1,6 +1,8 @@
-%   Interval Class
+%	-- Interval class
 %
 %   Implementation of basic Interval class for Interval Analysis
+%	
+%	- Usage = 
 %
 %   Interval([lb,ub]) creates the Interval [lb ... ub]
 %
@@ -18,14 +20,24 @@
 %   To see more function implemented for the Interval class, please consult
 %   the code file.
 %
-%   Created by Evandro Bernardes
-%   Based on IAMOOC, the Interval Analysis course given by Luc Jaulin, 
-%   following the link:
-%   https://www.ensta-bretagne.fr/jaulin/iamooc.html
+%	-> MATLAB version used:	
+%		- 9.0.0.341360 (R2016a) 64-bit
+%				 
+% 	-> Special toolboxes used: 
+%		-- none	--
 %
-%   Version 1.0
-%   4 May 2017
+% 	-> Other dependencies: 
+%		-- none --
+%									 
+%	-> Created by Evandro Bernardes	 								 
+%		- at IRI (Barcelona, Catalonia, Spain)							 								 
+%									 
+% 	Code version:	1.1
+%	- 1.1: TODO Doc
 %
+%	last edited in:	14/09/2017 						 
+%									 
+%***********************************************************************
 classdef Interval
     properties
         lb; ub;
@@ -36,8 +48,6 @@ classdef Interval
             switch nargin
                 case 1
                     res = res.init(varargin{1});
-%                 case 2
-%                     res = res.init([varargin{1},varargin{2}]);
                 otherwise
                     res = Interval.empty(nargin,0);
                     for i=1:nargin
@@ -46,14 +56,27 @@ classdef Interval
             end
         end
         
-        function obj = init(obj,boundaries)
-            if(isempty(boundaries))
-                obj.lb = []; obj.ub = [];
-            elseif(length(boundaries) == 1)
-                obj.lb = boundaries;
-                obj.ub = obj.lb;
-            else
-                lb = boundaries(1); 
+%         function obj = init(obj,boundaries)
+%             if(isempty(boundaries))
+%                 obj.lb = []; obj.ub = [];
+%             elseif(length(boundaries) == 1)
+%                 obj.lb = boundaries;
+%                 obj.ub = obj.lb;
+%             else
+%                 lb = boundaries(1); 
+%                 ub = boundaries(2);
+%                 if(ub>=lb)
+%                     obj.lb = lb;
+%                     obj.ub = ub;
+%                 else
+%                     obj.lb = ub; obj.ub = lb;
+%                 end
+%             end
+%         end
+
+		function obj = init_simple(obj,boundaries)
+			obj = Interval(0);
+			lb = boundaries(1); 
                 ub = boundaries(2);
                 if(ub>=lb)
                     obj.lb = lb;
@@ -61,8 +84,32 @@ classdef Interval
                 else
                     obj.lb = ub; obj.ub = lb;
                 end
+		end
+
+		function obj = init(obj,boundaries)
+            if(isempty(boundaries))
+                obj.lb = []; obj.ub = [];
+            elseif(length(boundaries) == 1)
+                obj.lb = boundaries;
+                obj.ub = obj.lb;
+			else
+				[M,N] = size(boundaries);
+				if(~(M == 2 || N == 2))
+					error('Uncompatible entry matrix');
+				end
+				if(N == 2)
+					C = M;
+					M = N;
+					N = C;
+					boundaries = boundaries';
+				end
+				
+				obj = Interval.empty(N,0);
+				for i=1:N
+                    obj(i) = obj.init_simple(boundaries(:,i));
+				end 
             end
-        end
+		end
         
         function res = inflate(a,sigma)
             [n,m] = size(a);
