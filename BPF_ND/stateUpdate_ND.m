@@ -35,8 +35,9 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.0
+% 	Code version:	1.3
 %	- 1.2: name changed from stateUpdateVar to stateUpdate
+%	- 1.3: subfunction name changed from initBoxesArray to initBoxesList
 %
 %	last edited in:	13/09/2017 						 
 %									 
@@ -61,7 +62,7 @@ function [w_new,Boxes_new] = stateUpdate_ND(w,Boxes,accuracy,sFunction,sInput,ts
     
     % new boxes array and weight array
     lb = min(lb); ub = max(ub);
-    Boxes_new = initBoxesArray_ND(lb,ub,accuracy);
+    Boxes_new = initBoxesList(lb,ub,accuracy);
     w_new=zeros(size(Boxes_new));
     
     % loop for all non-zero boxes

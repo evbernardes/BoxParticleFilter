@@ -8,6 +8,7 @@
 %	- inputs =
 %		- lb - DOUBLE ARRAY, lower bound in each dimension
 %		- ub - DOUBLE ARRAY, upper bound in each dimension
+%		- accuracy - DOUBLE ARRAY, accuracy in each dimension
 %
 %	- outputs = 	
 %       - Boxes - CELL ARRAY, defines all new boxes

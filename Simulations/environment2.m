@@ -23,9 +23,10 @@ accuracy_x = [1, 1];
 % S =     [0 0;
 %          1.5 4;
 %          2 1];
-S =     [6 2;
-         8 15;
-         12 20];
+% S =     [6 2;
+%          8 15;
+%          12 20];
+S =     [6 2];
 NS = size(S,1); % number of landmarks
 
 %% Define noise and measurement
@@ -42,7 +43,8 @@ theta_measure = theta + sqrt(sigma_theta)*randn(size(theta));
 v_dist = abs(bsxfun(@minus,x(:,1) + 1i*x(:,2),S(:,1)' + 1i*S(:,2)'));
 measureFunc = @(x,y,s) sqrt((x-s(1)).^2 + (y-s(2)).^2);
 measure = v_dist + sqrt(sigma)*randn(size(v_dist)); % Measured distance
-h = @(x,k) [measureFunc(x(1),x(2),S(1,:));measureFunc(x(1),x(2),S(2,:));measureFunc(x(1),x(2),S(3,:))];
+%h = @(x,k) [measureFunc(x(1),x(2),S(1,:));measureFunc(x(1),x(2),S(2,:));measureFunc(x(1),x(2),S(3,:))];
+h = @(x,k) [measureFunc(x(1),x(2),S(1,:))];
 % Define array with all measurement error functions
 pe = cell(NS,1);
 for m = 1:NS

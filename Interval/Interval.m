@@ -6,12 +6,16 @@
 %
 %   Interval([lb,ub]) creates the Interval [lb ... ub]
 %
-%   Interval(x) creates the Interval [x ... x] if length(x) = 1 and
+%   1) Interval(x) creates the Interval [x ... x] if length(x) = 1 and
 %   [min(x) ... max(x)] if length(x) > 1;
 %
-%   Interval(x1, x2, ... , xn) will create an Interval vector using each
+%   2) Interval(x1, x2, ... , xn) will create an Interval vector using each
 %   entry parameter. The entries can be viewed as it is done with a regular
-%   vector: Ik = I(k).
+%   vector: Ik = I(k);
+%
+%	3) Interval([x0 ; x1]) with x0 and x1 two vectors of the size N creates
+%	an Interval vector of size N whose componentes are [x0(1), x1(1)],
+%	[x0(2), x1(2)], ... ,[x0(N), x1(N)].
 %
 %   All the arithmetic operators have been overloaded, and using the point
 %   version of and arithmetic operation will give the same result as the
@@ -33,7 +37,8 @@
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
 % 	Code version:	1.1
-%	- 1.1: TODO Doc
+%	- 1.1: Added construction using two vectors of the same size (as 
+%	described in 3).
 %
 %	last edited in:	14/09/2017 						 
 %									 

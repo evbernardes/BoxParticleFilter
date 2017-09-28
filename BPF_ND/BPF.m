@@ -13,10 +13,10 @@
 %       - stateFunction - LAMBDA FUNCTION, state evolution
 %       - stateInput - CELL ARRAY, state function input
 %       - pe - CELL ARRAY, landmark distribution functions in (x,y) and time
-%       - [OPTIONAL] show - BOOL, if true, show the number of each time
-%       step (default = false).
-%       - [OPTIONAL] w_boxes0 - DOUBLE ARRAY, probability distribution at
-%       initial time (default = ).
+%		- integralInfo - CELL ARRAY. Each element is a vector showing which
+%		dimensions of the boxes must be integrated for each function in pe
+%		- gamma - DOUBLE, from 0 to 1. Only the biggest values of w_boxes
+%		will be used until the percentage indicated in gamma is achieved.
 %
 %	- outputs = 	
 %       - w_boxes - CELL ARRAY, probability distribution at each step
@@ -36,14 +36,15 @@
 %	-> Created by Evandro Bernardes	 								 
 %		- at IRI (Barcelona, Catalonia, Spain)							 								 
 %									 
-% 	Code version:	1.2
+% 	Code version:	1.3
 %   - 1.1: optional variables processing corrected
 %	- 1.2: name changed from BoxPFiltar2DVar to BPF2D
+%	- 1.3: added "integralInfo" and "gamma" parameters
 %
 %	last edited in:	13/09/2017 						 
 %									 
 %***********************************************************************
-function [Boxes,W,x_med] = BPF(Boxes_0,w_0,ts,sFunction,sInput,pe)
+function [Boxes,W,x_med] = BPF(Boxes_0,w_0,ts,sFunction,sInput,pe,integralInfo,gamma)
    
     N = length(sInput);
     x_med = zeros(N,length(Boxes_0{1}));
@@ -65,7 +66,7 @@ function [Boxes,W,x_med] = BPF(Boxes_0,w_0,ts,sFunction,sInput,pe)
         end
 
         % measurement update
-        [W{k},x_med(k,:)] = measurementUpdate_ND(W{k},Boxes{k},pek);
+        [W{k},x_med(k,:)] = measurementUpdate_ND(W{k},Boxes{k},pek,integralInfo,gamma);
 
         %% State update Resampling
         % Use input to calculate stateUpdate;

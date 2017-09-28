@@ -15,12 +15,12 @@ rng('shuffle');
 sigma=0.5; sigma_v = 2.5; sigma_theta = 0.2;
 environment2_ND;
 NP = 64; % number of particles for the conventional filter 
-accuracy = [2.5,2.5,2,pi/4]; % boxes' dimensions
-integralInfo = {2,1:2,
-				2,1:2,
-				2,1:2,
-				1,3,
-				1,4};
+accuracy = [5,5,2,pi/4]; % boxes' dimensions
+integralInfo = {1:2,
+				1:2,
+				1:2,
+				3,
+				4};
 %	
 %	last edited in:	07/09/2017 						 
 %									 
@@ -65,7 +65,7 @@ x_max = max(x) + 5*bound;
 %Boxes_0 = initBoxesArray_ND([x_min 0 0],[x_max 4 2*pi],accuracy);
 x0 = [x(1,:) v(1) theta(1)];
 %Boxes_0 = {Interval([x0-accuracy/2;x0+accuracy/2])};
-Boxes_0 = initBoxesArray_ND(x0-2*accuracy,x0+2*accuracy,accuracy);
+Boxes_0 = initBoxesList(x0-2*accuracy,x0+2*accuracy,accuracy);
 
 w_0 = ones(size(Boxes_0)); w_0 = w_0/sum(sum(w_0));
 
@@ -96,7 +96,7 @@ tic;
 
         % measurement update
 		backup = W{k};
-        [W{k},x_med(k,:)] = measurementUpdate_ND(W{k},Boxes{k},pek,integralInfo);
+        [W{k},x_med(k,:)] = measurementUpdate_ND(W{k},Boxes{k},pek,integralInfo,0.9);
 		if(isempty(W{k}))
 			W{k} = backup;
 		end

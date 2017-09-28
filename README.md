@@ -4,6 +4,15 @@ Matlab code for the Box Particle filtering project. Implementation of Interval c
 
 ## Directories
 
+### BPF_ND: 
+2D Box Particle Filter implementation.
+
+- **BPF.m**: N-dimenional Box Particle Filter simulation.
+- **measurementUpdate_ND.m**: Measurement update for N-dimensional box particle filtering.
+- **stateUpdate.m**: State Update for N-dimensional box particle filtering.
+- **initBoxesArray.m**: Initialise Box cell array. Used by stateUpdate function to perform resampling.
+- **findIndexes.m**: Find which boxes in a box array intersect a given input box.
+
 ### BPF2D: 
 2D Box Particle Filter implementation.
 

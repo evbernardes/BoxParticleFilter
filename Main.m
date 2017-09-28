@@ -15,7 +15,7 @@ rng('shuffle');
 sigma=0.5; sigma_v = 2.5; sigma_theta = 1;
 environment2;
 NP = 64; % number of particles for the conventional filter 
-accuracy = [5*sigma,5*sigma]; % boxes' dimensions
+accuracy = [1,1]; % boxes' dimensions
 %	
 %	last edited in:	07/09/2017 						 
 %									 
@@ -30,14 +30,12 @@ sFunction = @(X,U,ts) X + ts*U(1)*[cos(U(2)) , sin(U(2))];
 % -> "particles" is a cell array containing all the particles in each step
 % -> "particles{k}" is an array containing all particles after step "k"
 %************************************************************************
-
-initParticles; % Finding the number of boxes/particles
-
+bound = max(max(abs(dx)));
 r = (rand(1,3000)-0.5)*(bound);
 Q = 3*cov(r)*eye(2); % by function "pf.m" to move particles randomnly
 
 xpf = zeros(2,N);
-particles{1} = particles{1}';
+particles{1} = initParticles(-accuracy,+accuracy,NP);
 
 tic;
 for k = 1:N
@@ -51,7 +49,8 @@ x_conv = xpf';
 % Box particle filtering (variable)
 % ************************************************************************
 
-Boxes_0 = initBoxesArray(x_min,x_max,accuracy);
+%Boxes_0 = initBoxesArray(x_min,x_max,accuracy);
+Boxes_0 = initBoxesArray(-accuracy,accuracy,accuracy);
 w_0 = ones(size(Boxes_0)); w_0 = w_0/sum(sum(w_0));
 
 tic;

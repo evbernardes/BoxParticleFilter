@@ -1,15 +1,40 @@
-bound = max(max(abs(dx)));
-% x_min = min(x) - 2*accuracy_x;
-% x_max = max(x) + 2*accuracy_x;
-% 
-% SizeParticles = ceil((x_max - x_min)./accuracy_x); NParticles = prod(SizeParticles);
+%*********************************************************************** 
+%									 
+%	-- Initialise particles for the conventional particle filter
+%
+%	- Usage = 
+%		Boxes = initParticles(x_min,x_max,NP)
+%
+%	- inputs =
+%		- x_min - DOUBLE ARRAY, lower bound in each dimension
+%		- x_max - DOUBLE ARRAY, upper bound in each dimension
+%		- NP - INTEGER, number of particles
+%
+%	- outputs = 	
+%       - Boxes - CELL ARRAY, defines all new boxes
+%									 
+%	-> MATLAB version used:	
+%		- 9.0.0.341360 (R2016a) 64-bit
+%				 
+% 	-> Special toolboxes used: 
+%		-- none	--
+%
+% 	-> Other dependencies: 
+%		-- none --
+%									 
+%	-> Created by Evandro Bernardes	 								 
+%		- at IRI (Barcelona, Catalonia, Spain)							 								 
+%									 
+% 	Code version:	1.0
+%
+%	last edited in:	17/09/2017 						 
+%									 
+%***********************************************************************
+function particles = initParticles(x_min,x_max,NP)
+	SizeParticles = ceil([sqrt(NP) sqrt(NP)]); 
+	NP = prod(SizeParticles);
 
-SizeParticles = ceil([sqrt(NP) sqrt(NP)]); NParticles = prod(SizeParticles);
-x_min = min(x) - 5*bound;
-x_max = max(x) + 5*bound;
-accuracy_x = ceil(x_max - x_min)./SizeParticles;
-
-particles_x1 = x_min(1)+rand(NParticles,1)*(x_max(1)-x_min(1));
-particles_x2 = x_min(2)+rand(NParticles,1)*(x_max(2)-x_min(2));
-particles = cell(N,1);
-particles{1} = [particles_x1,particles_x2];
+	particles_x1 = x_min(1)+rand(NP,1)*(x_max(1)-x_min(1));
+	particles_x2 = x_min(2)+rand(NP,1)*(x_max(2)-x_min(2));
+	particles = [particles_x1,particles_x2]';
+end

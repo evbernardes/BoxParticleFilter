@@ -1,3 +1,4 @@
+normVec = @(a) sqrt(sum(a.^2,2)); % Nx1 norm of a Nx2 vector
 %% path 2
 id = 'environment 2';
 ts = 0.5;
